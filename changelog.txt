@@ -1,4 +1,4 @@
-Plugin Name: BP Group Calendar
+Plugin Name: BP Group Email
 Author: Aaron Edwards at uglyrobot.com (for Incsub)
 
 Change Log:

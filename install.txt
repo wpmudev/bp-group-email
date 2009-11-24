@@ -1,11 +1,11 @@
-Plugin Name: BP Group Calendar
+Plugin Name: BP Group Email
 Author: Aaron Edwards at uglyrobot.com (for Incsub)
 
 Folder:
 ----------------------------------------------------------------------
-bp-group-calendar
+bp-group-email
 
 Instructions:
 ----------------------------------------------------------------------
-1) Unzip the bp-group-calendar folder in /wp-content/plugins/
-2) Activate the BP Group Calendar plugin Site-Wide on the Plugins admin page
+1) Unzip the bp-group-email folder in /wp-content/plugins/
+2) Activate the BP Group Email plugin Site-Wide on the Plugins admin page
