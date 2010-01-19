@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: BP Group Email
-Version: 1.0.1
+Version: 1.0.2
 Plugin URI: http://incsub.com
 Description: Adds email sending functionality to Buddypress Groups. Must be activated site-wide.
 Author: Aaron Edwards at uglyrobot.com (for Incsub)
@@ -30,7 +30,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 //------------------------------------------------------------------------//
 
-$bp_group_email_current_version = '1.0.1';
+$bp_group_email_current_version = '1.0.2';
 
 //------------------------------------------------------------------------//
 
