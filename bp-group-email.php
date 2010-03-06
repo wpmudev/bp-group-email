@@ -1,12 +1,13 @@
 <?php
 /*
 Plugin Name: BP Group Email
-Version: 1.0.2
-Plugin URI: http://incsub.com
+Version: 1.0.3
+Plugin URI: http://premium.wpmudev.org
 Description: Adds email sending functionality to Buddypress Groups. Must be activated site-wide.
-Author: Aaron Edwards at uglyrobot.com (for Incsub)
+Author: Aaron Edwards (Incsub)
 Author URI: http://uglyrobot.com
 Site Wide Only: true
+WDP ID: 110
 
 Copyright 2009-2010 Incsub (http://incsub.com)
 
@@ -30,7 +31,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 //------------------------------------------------------------------------//
 
-$bp_group_email_current_version = '1.0.2';
+$bp_group_email_current_version = '1.0.3';
 
 //------------------------------------------------------------------------//
 
@@ -53,32 +54,15 @@ function bp_group_email_localization() {
 	load_plugin_textdomain( 'groupemail', FALSE, '/bp-group-email/languages' );
 }
 
-//1.1 compatibility: http://buddypress.org/forums/topic/class-bp_group_extension-not-found-installing-plugin
-function bp_group_email_load_buddypress() {
-	//buddypress is loaded
-	if ( function_exists( 'bp_core_setup_globals' ) )
-		return false;
-
-	// Get the list of active sitewide plugins
-	$active_sitewide_plugins = maybe_unserialize( get_site_option( 'active_sitewide_plugins' ) );
-	$bp_activated = $active_sitewide_plugins['buddypress/bp-loader.php'];
-
-	//bp is not activated
-	if ( !$bp_activated ){
-		return false;
-	}
-
-	//bp is activated but not yet loaded
-	if ( $bp_activated ) {
-		return true;
-	}
-
-	return false;
+/*** Make sure BuddyPress is loaded ********************************/
+if ( !function_exists( 'bp_core_install' ) ) {
+	require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
+	if ( is_plugin_active( 'buddypress/bp-loader.php' ) )
+		require_once ( WP_PLUGIN_DIR . '/buddypress/bp-loader.php' );
+	else
+		return;
 }
-//load bp if its not activated
-if ( bp_group_email_load_buddypress() ){
-	require_once( WP_PLUGIN_DIR . '/buddypress/bp-loader.php' );
-}
+/*******************************************************************/
 
 //extend the group
 class BP_Groupemail_Extension extends BP_Group_Extension {
@@ -93,7 +77,7 @@ class BP_Groupemail_Extension extends BP_Group_Extension {
 		$this->slug = 'email';
 
 		//$this->create_step_position = 21;
-		$this->nav_item_position = 35;
+		//$this->nav_item_position = 35;
 		$this->enable_nav_item = $this->bp_group_email_get_capabilities();
 	}
   
@@ -102,8 +86,6 @@ class BP_Groupemail_Extension extends BP_Group_Extension {
 		global $wpdb, $bp;
   
     $url = bp_get_group_permalink( $bp->groups->current_group ).'/email/';
-    
-    $group_id = bp_get_group_id();
     
     $email_capabilities = $this->bp_group_email_get_capabilities();
 
@@ -180,8 +162,6 @@ class BP_Groupemail_Extension extends BP_Group_Extension {
       }
       
       //prepare fields
-      $group_id = bp_get_group_id();
-      
       $email_subject = strip_tags(stripslashes(trim($_POST['email_subject'])));
       
       //check that required title isset after filtering
@@ -200,19 +180,21 @@ class BP_Groupemail_Extension extends BP_Group_Extension {
   
       //send emails
       $group_link = bp_get_group_permalink( $bp->groups->current_group ) . '/';
-  
+      
+      $user_ids = BP_Groups_Member::get_group_member_ids($bp->groups->current_group->id);
+      
       $email_count = 0;
-    	foreach ( $bp->groups->current_group->user_dataset as $user ) {
+    	foreach ($user_ids as $user_id) {
     	  //skip opt-outs
-    		if ( 'no' == get_usermeta( $user->user_id, 'notification_groups_email_send' ) ) continue;
+    		if ( 'no' == get_usermeta( $user_id, 'notification_groups_email_send' ) ) continue;
     		
-    		$ud = get_userdata( $user->user_id );
+    		$ud = get_userdata( $user_id );
     		
     		// Set up and send the message
     		$to = $ud->user_email;
         
-    		$group_link = site_url( $bp->groups->slug . '/' . $group->slug . '/' );
-    		$settings_link = bp_core_get_user_domain( $user->user_id ) . 'settings/notifications/'; 
+    		$group_link = site_url( $bp->groups->slug . '/' . $bp->groups->current_group->slug . '/' );
+    		$settings_link = bp_core_get_user_domain( $user_id ) . 'settings/notifications/';
     
     		$message = sprintf( __( 
   '%s
@@ -221,20 +203,22 @@ class BP_Groupemail_Extension extends BP_Group_Extension {
   Sent by %s from the "%s" group: %s
   
   ---------------------
-  ', 'groupemail' ), $email_text, get_blog_option( BP_ROOT_BLOG, 'blogname' ), stripslashes( attribute_escape( $group->name ) ), $group_link );
+  ', 'groupemail' ), $email_text, get_blog_option( BP_ROOT_BLOG, 'blogname' ), stripslashes( attribute_escape( $bp->groups->current_group->name ) ), $group_link );
     
     		$message .= sprintf( __( 'To unsubscribe from these emails please log in and go to: %s', 'groupemail' ), $settings_link );
     
     		// Send it
     		wp_mail( $to, $email_subject, $message );
-    		
+
     		unset( $message, $to );
     		$email_count++;
     	}
       
       //show success message
-      bp_core_add_message( sprintf( __("The email was successfully sent to %d group members", 'groupemail'), $email_count) );
-      return true;
+      if ($email_count) {
+        bp_core_add_message( sprintf( __("The email was successfully sent to %d group members", 'groupemail'), $email_count) );
+        return true;
+      }
     } else {
       return false;
     }
