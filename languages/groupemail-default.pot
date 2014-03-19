@@ -1,0 +1,99 @@
+# Copyright (C) 2013 BP Group Email
+# This file is distributed under the same license as the BP Group Email package.
+msgid ""
+msgstr ""
+"Project-Id-Version: BP Group Email 1.0.6\n"
+"Report-Msgid-Bugs-To: http://premium.wpmudev.org/\n"
+"POT-Creation-Date: 2013-10-09 17:32:56+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2013-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+
+#: bp-group-email.php:58
+msgid "Please install the latest version of <a href=\"http://premium.wpmudev.org/project/update-notifications/\" title=\"Download Now &raquo;\">our free Update Notifications plugin</a> which helps you stay up-to-date with the most stable, secure versions of WPMU DEV themes and plugins. <a href=\"http://premium.wpmudev.org/wpmu-dev/update-notifications-plugin-information/\">More information &raquo;</a>"
+msgstr ""
+
+#: includes/bp-group-email.php:39 includes/bp-group-email.php:89
+msgid "Send Email"
+msgstr ""
+
+#: includes/bp-group-email.php:57 includes/bp-group-email.php:126
+msgid "You don't have permission to send emails"
+msgstr ""
+
+#: includes/bp-group-email.php:75
+msgid "Send Email to Group"
+msgstr ""
+
+#: includes/bp-group-email.php:78
+msgid "Subject"
+msgstr ""
+
+#: includes/bp-group-email.php:81
+msgid "Email Text"
+msgstr ""
+
+#: includes/bp-group-email.php:82
+msgid "(No HTML Allowed)"
+msgstr ""
+
+#: includes/bp-group-email.php:90
+msgid "Note: This may take a while depending on the size of the group"
+msgstr ""
+
+#: includes/bp-group-email.php:120
+msgid "There was a security problem"
+msgstr ""
+
+#: includes/bp-group-email.php:135
+msgid "A subject is required"
+msgstr ""
+
+#: includes/bp-group-email.php:143
+msgid "Email text is required"
+msgstr ""
+
+#: includes/bp-group-email.php:165
+msgid ""
+"%s\n"
+"  \n"
+"  \n"
+"  Sent by %s from the \"%s\" group: %s\n"
+"  \n"
+"  ---------------------\n"
+"  "
+msgstr ""
+
+#: includes/bp-group-email.php:174
+msgid "To unsubscribe from these emails please log in and go to: %s"
+msgstr ""
+
+#: includes/bp-group-email.php:185
+msgid "The email was successfully sent to %d group members"
+msgstr ""
+
+#: includes/bp-group-email.php:209
+msgid "An email is sent to the group by an admin or moderator"
+msgstr ""
+#. Plugin Name of the plugin/theme
+msgid "BP Group Email"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "http://premium.wpmudev.org/project/buddypress-group-email"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "This plugin adds group email functionality to BuddyPress allowing a group admin or moderator to send an email to all the other members in the group."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Aaron Edwards (Incsub)"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://uglyrobot.com"
+msgstr ""

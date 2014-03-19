@@ -1,28 +1,6 @@
 <?php
 /*
-Plugin Name: BP Group Email
-Version: 1.0.3
-Plugin URI: http://premium.wpmudev.org
-Description: Adds email sending functionality to Buddypress Groups. Must be activated site-wide.
-Author: Aaron Edwards (Incsub)
-Author URI: http://uglyrobot.com
-Site Wide Only: true
-WDP ID: 110
-
-Copyright 2009-2010 Incsub (http://incsub.com)
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License (Version 2 - GPLv2) as published by
-the Free Software Foundation.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+BP Group Email
 */
 
 //------------------------------------------------------------------------//
@@ -31,7 +9,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 //------------------------------------------------------------------------//
 
-$bp_group_email_current_version = '1.0.3';
 
 //------------------------------------------------------------------------//
 
@@ -39,7 +16,7 @@ $bp_group_email_current_version = '1.0.3';
 
 //------------------------------------------------------------------------//
 
-add_action( 'plugins_loaded', 'bp_group_email_localization' );
+
 add_action( 'groups_screen_notification_settings', 'bp_group_email_notification_settings' );
 
 //------------------------------------------------------------------------//
@@ -48,21 +25,7 @@ add_action( 'groups_screen_notification_settings', 'bp_group_email_notification_
 
 //------------------------------------------------------------------------//
 
-function bp_group_email_localization() {
-  // Load up the localization file if we're using WordPress in a different language
-	// Place it in this plugin's "languages" folder and name it "groupemail-[value in wp-config].mo"
-	load_plugin_textdomain( 'groupemail', FALSE, '/bp-group-email/languages' );
-}
 
-/*** Make sure BuddyPress is loaded ********************************/
-if ( !function_exists( 'bp_core_install' ) ) {
-	require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
-	if ( is_plugin_active( 'buddypress/bp-loader.php' ) )
-		require_once ( WP_PLUGIN_DIR . '/buddypress/bp-loader.php' );
-	else
-		return;
-}
-/*******************************************************************/
 
 //extend the group
 class BP_Groupemail_Extension extends BP_Group_Extension {
@@ -85,7 +48,7 @@ class BP_Groupemail_Extension extends BP_Group_Extension {
 		/* Use this function to display the actual content of your group extension when the nav item is selected */
 		global $wpdb, $bp;
   
-    $url = bp_get_group_permalink( $bp->groups->current_group ).'/email/';
+    $url = untrailingslashit( bp_get_group_permalink( $bp->groups->current_group ) ) . '/email/';
     
     $email_capabilities = $this->bp_group_email_get_capabilities();
 
@@ -99,9 +62,12 @@ class BP_Groupemail_Extension extends BP_Group_Extension {
     $email_success = $this->bp_group_email_send();
     
     if (!$email_success) {
-      $email_subject = strip_tags(stripslashes(trim($_POST['email_subject'])));
-      $email_text = strip_tags(stripslashes(trim($_POST['email_text'])));
-    }
+      $email_subject = strip_tags(stripslashes(trim(@$_POST['email_subject'])));
+      $email_text = strip_tags(stripslashes(trim(@$_POST['email_text'])));
+    } else {
+			$email_subject = '';
+      $email_text = '';
+		}
     
     do_action( 'template_notices' );
     ?>
@@ -186,7 +152,7 @@ class BP_Groupemail_Extension extends BP_Group_Extension {
       $email_count = 0;
     	foreach ($user_ids as $user_id) {
     	  //skip opt-outs
-    		if ( 'no' == get_usermeta( $user_id, 'notification_groups_email_send' ) ) continue;
+    		if ( 'no' == get_user_meta( $user_id, 'notification_groups_email_send', true ) ) continue;
     		
     		$ud = get_userdata( $user_id );
     		
@@ -203,7 +169,7 @@ class BP_Groupemail_Extension extends BP_Group_Extension {
   Sent by %s from the "%s" group: %s
   
   ---------------------
-  ', 'groupemail' ), $email_text, get_blog_option( BP_ROOT_BLOG, 'blogname' ), stripslashes( attribute_escape( $bp->groups->current_group->name ) ), $group_link );
+  ', 'groupemail' ), $email_text, get_blog_option( BP_ROOT_BLOG, 'blogname' ), stripslashes( esc_attr( $bp->groups->current_group->name ) ), $group_link );
     
     		$message .= sprintf( __( 'To unsubscribe from these emails please log in and go to: %s', 'groupemail' ), $settings_link );
     
@@ -241,8 +207,8 @@ function bp_group_email_notification_settings() {
 		<tr>
 			<td></td>
 			<td><?php _e( 'An email is sent to the group by an admin or moderator', 'groupemail' ) ?></td>
-			<td class="yes"><input type="radio" name="notifications[notification_groups_email_send]" value="yes" <?php if ( !get_usermeta( $current_user->id, 'notification_groups_email_send') || 'yes' == get_usermeta( $current_user->id, 'notification_groups_email_send') ) { ?>checked="checked" <?php } ?>/></td>
-			<td class="no"><input type="radio" name="notifications[notification_groups_email_send]" value="no" <?php if ( 'no' == get_usermeta( $current_user->id, 'notification_groups_email_send') ) { ?>checked="checked" <?php } ?>/></td>
+			<td class="yes"><input type="radio" name="notifications[notification_groups_email_send]" value="yes" <?php if ( !get_user_meta( $current_user->id, 'notification_groups_email_send', true) || 'yes' == get_user_meta( $current_user->id, 'notification_groups_email_send', true) ) { ?>checked="checked" <?php } ?>/></td>
+			<td class="no"><input type="radio" name="notifications[notification_groups_email_send]" value="no" <?php if ( 'no' == get_user_meta( $current_user->id, 'notification_groups_email_send', true) ) { ?>checked="checked" <?php } ?>/></td>
 		</tr>
 <?php
 }
