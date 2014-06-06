@@ -2,15 +2,17 @@
 /*
 Plugin Name: BP Group Email
 Version: 1.0.6
-Plugin URI: http://premium.wpmudev.org/project/buddypress-group-email
+Plugin URI: http://premium.wpmudev.org/project/buddypress-group-email/
 Description: This plugin adds group email functionality to BuddyPress allowing a group admin or moderator to send an email to all the other members in the group.
-Author: Aaron Edwards (Incsub)
+Author: WPMU DEV
 Author URI: http://uglyrobot.com
 Network: true
 Textdomain: groupemail
 WDP ID: 110
 
-Copyright 2009-2013 Incsub (http://incsub.com)
+Copyright 2009-2014 Incsub (http://incsub.com)
+Author - Aaron Edwards
+Contributors - 
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License (Version 2 - GPLv2) as published by
