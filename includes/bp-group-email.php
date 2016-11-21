@@ -143,7 +143,7 @@ class BP_Groupemail_Extension extends BP_Group_Extension {
         bp_core_add_message( __("Email text is required", 'groupemail'), 'error' );
         return false;
       }
-  
+
       //send emails
       $group_link = bp_get_group_permalink( $bp->groups->current_group ) . '/';
       
@@ -158,8 +158,8 @@ class BP_Groupemail_Extension extends BP_Group_Extension {
     		
     		// Set up and send the message
     		$to = $ud->user_email;
-        
-    		$group_link = site_url( $bp->groups->slug . '/' . $bp->groups->current_group->slug . '/' );
+
+    		$group_link = site_url( $bp->groups->root_slug . '/' . $bp->groups->current_group->slug . '/' );
     		$settings_link = bp_core_get_user_domain( $user_id ) . 'settings/notifications/';
     
     		$message = sprintf( __( 
@@ -172,7 +172,7 @@ class BP_Groupemail_Extension extends BP_Group_Extension {
   ', 'groupemail' ), $email_text, get_blog_option( BP_ROOT_BLOG, 'blogname' ), stripslashes( esc_attr( $bp->groups->current_group->name ) ), $group_link );
     
     		$message .= sprintf( __( 'To unsubscribe from these emails please log in and go to: %s', 'groupemail' ), $settings_link );
-    
+
     		// Send it
     		wp_mail( $to, $email_subject, $message );
 
