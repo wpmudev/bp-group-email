@@ -44,7 +44,7 @@ class BP_Groupemail_Extension extends BP_Group_Extension {
 		$this->enable_nav_item = $this->bp_group_email_get_capabilities();
 	}
   
-	function display() {
+	function display( $group_id = NULL ) {
 		/* Use this function to display the actual content of your group extension when the nav item is selected */
 		global $wpdb, $bp;
   
@@ -94,10 +94,10 @@ class BP_Groupemail_Extension extends BP_Group_Extension {
     <?php
 	}
   
-  function create_screen() {}
-	function create_screen_save() {}
-	function edit_screen() {}
-	function edit_screen_save() {}
+  function create_screen($group_id = NULL) {}
+	function create_screen_save($group_id = NULL) {}
+	function edit_screen($group_id = NULL) {}
+	function edit_screen_save($group_id = NULL) {}
 	function widget_display() {}
 	
 	function bp_group_email_get_capabilities() {
