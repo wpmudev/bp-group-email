@@ -1,9 +1,15 @@
 Plugin Name: BP Group Email
-Author: Aaron Edwards at uglyrobot.com (for Incsub)
+Author: Aaron Edwards (Incsub)
 
 Change Log:
 ----------------------------------------------------------------------
 ----------------------------------------------------------------------
+
+
+1.0.7 - 12/13/2016
+----------------------------------------------------------------------
+- Fix compatibility with latest buddypress
+- Fix for group url when the group root slug is different
 
 1.0.6 - 2/28/2012
 ----------------------------------------------------------------------
