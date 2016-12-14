@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: BuddyPress Group Email
-Version: 1.0.7
+Version: 1.0.8
 Plugin URI: https://premium.wpmudev.org/project/buddypress-group-email/
 Description: This plugin adds group email functionality to BuddyPress allowing a group admin or moderator to send an email to all the other members in the group.
 Author: WPMU DEV
@@ -28,7 +28,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-$bp_group_email_current_version = '1.0.7';
+$bp_group_email_current_version = '1.0.8';
 
 /* Only load code that needs BuddyPress to run once BP is loaded and initialized. */
 function bp_group_email_init() {
