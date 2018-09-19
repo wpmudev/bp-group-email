@@ -35,7 +35,7 @@ class BP_Groupemail_Extension extends BP_Group_Extension {
   //var $enable_nav_item = false; // If your extension does not need a navigation item, set this to false
   var $enable_edit_item = false; // If your extension does not need an edit screen, set this to false
   
-	function bp_groupemail_extension() {
+	function __construct() {
 		$this->name = __( 'Send Email', 'groupemail' );
 		$this->slug = 'email';
 
